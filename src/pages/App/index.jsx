@@ -1,6 +1,7 @@
 import { useRoutes, BrowserRouter } from "react-router-dom";
 import PagesApp from "../Pages";
 import { Navbar } from "../../components/Navbar";
+import Layout from "../../components/Layout";
 const AppRouts = () => {
   const { Home, MyAccount, MyOrder, MyOrders, NotFound, SignIn } = PagesApp;
   const route = useRoutes([
@@ -35,7 +36,9 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar/>
+      <Layout>
       <AppRouts />
+      </Layout>
     </BrowserRouter>
   );
 }
