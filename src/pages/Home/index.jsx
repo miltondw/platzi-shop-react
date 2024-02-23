@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Card from "../../components/Card";
 import { useState } from "react";
+import ProductDetail from "../../components/ProductDetail";
 
 export default function Home() {
   const [Items, setItems] = useState([]);
@@ -29,9 +30,11 @@ export default function Home() {
               price={item.price}
               category={item.category}
               images={item.images}
+              description={item.description}
             />
           ))}
       </div>
+      <ProductDetail/>
     </div>
   );
 }

@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { ShoppingCartContext } from "../../Context";
+import { ShoppingBagIcon } from "@heroicons/react/24/solid";
 export const Navbar = () => {
   const menu1 = [
     {
@@ -9,32 +12,26 @@ export const Navbar = () => {
     {
       to: "/",
       text: "All",
-      className: "",
     },
     {
       to: "/clothes",
       text: "clothes",
-      className: "",
     },
     {
       to: "/electronics",
       text: "electronics",
-      className: "",
     },
     {
       to: "/furnitures",
       text: "furnitures",
-      className: "",
     },
     {
       to: "/toys",
       text: "toys",
-      className: "",
     },
     {
       to: "/others",
       text: "others",
-      className: "",
     },
   ];
 
@@ -47,33 +44,32 @@ export const Navbar = () => {
     {
       to: "/my-orders",
       text: "My orders",
-      className: "",
     },
     {
       to: "/my-account",
       text: "My account",
-      className: "",
     },
     {
       to: "/sign-in",
       text: "Sign in",
-      className: "",
     },
     {
       to: "/shoppcar",
-      text: "🛒",
-      className: "",
+      text: <ShoppingBagIcon className="h-6 w-6 text-black"></ShoppingBagIcon>,
     },
   ];
+  const carContext = useContext(ShoppingCartContext);
   const activeStyle = " underline underline-offset-4";
   return (
-    <nav className="flex w-full justify-between items-center fixed z-10 top-0 py-5 px-8 text-sm font-light ">
+    <nav className="flex w-full justify-between items-center fixed z-10 top-0 py-5 px-8 text-sm font-light bg-white/80">
       <ul className="flex items-center gap-3">
         {menu1.map((item, i) => (
           <li key={i} className={i == 0 ? "font-semibold text-lg" : ""}>
             <NavLink
               to={item.to}
-              className={({ isActive }) => (isActive && i>0 ? activeStyle : "")}
+              className={({ isActive }) =>
+                isActive && i > 0 ? activeStyle : ""
+              }
             >
               {item.text}
             </NavLink>
@@ -82,12 +78,19 @@ export const Navbar = () => {
       </ul>
       <ul className="flex items-center gap-3">
         {menu2.map((item, i) => (
-          <li key={i} className={i==0?'text-black/60':''}>
+          <li key={i} className={i == 0 ? "text-black/60" : ""}>
             <NavLink
               to={item.to}
               className={({ isActive }) => (isActive ? activeStyle : "")}
             >
-              {item.text}
+              {item.to == "/shoppcar" ? (
+                <div className="flex gap-2 items-center">
+                  <ShoppingBagIcon className="h-6 w-6 text-black" />
+                  {carContext.count}
+                </div>
+              ) : (
+                item.text
+              )}
             </NavLink>
           </li>
         ))}
