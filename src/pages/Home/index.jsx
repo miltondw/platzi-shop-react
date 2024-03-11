@@ -1,40 +1,48 @@
-import { useEffect } from "react";
+import { useContext } from "react";
 import Card from "../../components/Card";
-import { useState } from "react";
 import ProductDetail from "../../components/ProductDetail";
-
+import { ShoppingCartContext } from "../../Context";
+import { useAutoFocus } from "../../hooks/useAutoFocus";
 export default function Home() {
-  const [Items, setItems] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`https://api.escuelajs.co/api/v1/products`);
-        const data = await response.json();
-        setItems(data);
-      } catch (error) {
-        console.error(`Oh no, ocurrió un error: ${error}`);
-      }
-    };
-    fetchData();
-  }, []);
+  // const currentPath = window.location.pathname;
+  // let category = currentPath.substring(currentPath.lastIndexOf("/") + 1);
+  const context = useContext(ShoppingCartContext);
+  const autoFocusRef = useAutoFocus();
+
+  const renderView = () => {
+    if (context.filteredItems?.length > 0) {
+      return context.filteredItems?.map((item) => (
+        <Card
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          price={item.price}
+          category={item.category}
+          images={item.images}
+          description={item.description}
+        />
+      ));
+    } else {
+      // eslint-disable-next-line react/no-unescaped-entities
+      return <div>We don't have anything :(</div>;
+    }
+  };
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline mb-4">Home</h1>
-      <div className=" grid grid-cols-4 gap-4 w-full max-w-screen-lg">
-        {Items.length > 0 &&
-          Items.map((item) => (
-            <Card
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              price={item.price}
-              category={item.category}
-              images={item.images}
-              description={item.description}
-            />
-          ))}
+    <>
+      <div className="flex items-center justify-center relative w-80 mb-4">
+        <h1 className="font-medium text-xl">Exclusive Products</h1>
       </div>
-      <ProductDetail/>
-    </div>
+      <input
+        type="text"
+        placeholder="Search a product"
+        className="rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none"
+        onChange={(event) => context.setSearchByTitle(event.target.value)}
+        ref={autoFocusRef}
+      />
+      <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg">
+        {renderView()}
+      </div>
+      <ProductDetail />
+    </>
   );
 }
