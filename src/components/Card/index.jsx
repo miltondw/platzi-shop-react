@@ -10,6 +10,7 @@ const Card = ({ id, title, price, category, images, description }) => {
   const showProduct = (productDetail) => {
     context.openProductDetail();
     context.setProductToShow(productDetail);
+    context.closeCheckoutSideMenu();
   };
   const addProductsToCart = (e, productData) => {
     e.stopPropagation();

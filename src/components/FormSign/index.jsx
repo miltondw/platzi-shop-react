@@ -42,7 +42,7 @@ export default function FormSign() {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-2 relative left-10 ">
+    <div className="grid gap-2 lg:relative lg:left-10 lg:grid-cols-2 ">
       <div className="max-w-md w-full bg-white p-8 border border-gray-300">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
@@ -146,7 +146,7 @@ export default function FormSign() {
         src="/img/login.svg"
         alt="login"
         width="200"
-        className="absolute bottom-0  left-64"
+        className="lg:absolute lg:bottom-0  lg:left-64"
       />
     </div>
   );

@@ -11,7 +11,7 @@ const ProductDetail = () => {
     <aside
       className={`${
         context.isProductDetailOpen ? "flex" : "hidden"
-      } product-detail scrollable-cards flex-col fixed right-0 border border-black rounded-lg bg-white`}
+      } product-detail w-4/5 lg:w-[360px] scrollable-cards flex-col fixed left-0 lg:right-0 lg:left-auto border border-black rounded-lg bg-white`}
       id={context.productToShow.id}
     >
       <div className="flex justify-between items-center p-4">
