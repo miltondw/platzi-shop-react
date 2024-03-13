@@ -36,6 +36,7 @@ export const Navbar = () => {
     {
       to: "/sign-in",
       text: "Sign Out",
+      click: () => sinup(),
     },
     {
       to: "/shoppcar",
@@ -49,10 +50,10 @@ export const Navbar = () => {
       text: !context.userData ? "Sign Up" : "Sign In",
     },
   ];
-  const sinup=()=>{
-    login.saveItems(false) 
-    context.setLogin(false) 
-  }
+  const sinup = () => {
+    login.saveItems(false);
+    context.setLogin(false);
+  };
 
   const activeStyle = " underline underline-offset-4";
   return (
@@ -104,7 +105,7 @@ export const Navbar = () => {
                 <NavLink
                   to={item.to}
                   className={({ isActive }) => (isActive ? activeStyle : "")}
-                  onClick={()=>sinup() }
+                  onClick={item?.click}
                 >
                   {item.to == "/shoppcar" ? (
                     <div className="flex gap-2 items-center">

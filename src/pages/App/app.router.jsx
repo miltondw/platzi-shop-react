@@ -1,5 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import PagesApp from "../Pages";
+import ProtectedRoute from "../../components/ProtectedRoute";
 const AppRouts = () => {
   const { Home, MyAccount, MyOrder, MyOrders, NotFound, SignIn } = PagesApp;
   const route = useRoutes([
@@ -13,23 +14,43 @@ const AppRouts = () => {
     },
     {
       path: "/my-account",
-      element: <MyAccount />,
+      element: (
+        <ProtectedRoute>
+          <MyAccount />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/my-order",
-      element: <MyOrder />,
+      element: (
+        <ProtectedRoute>
+          <MyOrder />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/my-orders",
-      element: <MyOrders />,
+      element: (
+        <ProtectedRoute>
+          <MyOrders />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/my-orders/last",
-      element: <MyOrder />,
+      element: (
+        <ProtectedRoute>
+          <MyOrder />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/my-orders/:id",
-      element: <MyOrder />,
+      element: (
+        <ProtectedRoute>
+          <MyOrder />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/sign-in",
