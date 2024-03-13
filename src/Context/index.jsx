@@ -38,17 +38,20 @@ export const ShoppingCartProvider = ({ children }) => {
   const [loginState, setLogin] = useState(false);
   const userStorage = useLocalStorage("user");
   const loginStorage = useLocalStorage("login");
+
   useEffect(() => {
     fetch("https://api.escuelajs.co/api/v1/products")
       .then((response) => response.json())
       .then((data) => {
         const categorias = [...new Set(data.map((item) => item.category.name))];
         setItemsCategorys(categorias);
-        setUserData(userStorage.items);
-        setLogin(loginStorage.items);
+        setUserData(userStorage.getItem());
+        setLogin(loginStorage.getItem());
         return setItems(data);
       });
-  }, [loginStorage.items, userStorage.items]);
+    console.log(userData, loginState);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filteredItemsByTitle = (items, searchByTitle) => {
     return items?.filter((item) =>

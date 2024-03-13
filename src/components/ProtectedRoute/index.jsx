@@ -1,11 +1,9 @@
-import { Navigate } from 'react-router-dom';
-import { useContext } from "react";
-import { ShoppingCartContext } from "../../Context";
+import { Navigate } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {
-  const context = useContext(ShoppingCartContext);
-  if (!context.loginState) {
-      console.log("redirect")
+  const login = useLocalStorage("login");
+  if (!login.getItem()) {
     return <Navigate to="/sign-in" />;
   }
 
