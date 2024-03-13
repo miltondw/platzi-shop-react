@@ -1,6 +1,5 @@
+import FormSign from "../../components/FormSign";
 
 export default function SignIn() {
-  return (
-    <div>SignIn</div>
-  )
+  return (<FormSign/>)
 }

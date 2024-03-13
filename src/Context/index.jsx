@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export const ShoppingCartContext = createContext();
 
@@ -28,21 +29,26 @@ export const ShoppingCartProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState(null);
   const [itemsCategorys, setItemsCategorys] = useState(null);
-  // Get categories
   // Get products by title
   const [searchByTitle, setSearchByTitle] = useState(null);
   // Get products by category
   const [searchByCategory, setSearchByCategory] = useState(null);
-
+  //storage
+  const [userData, setUserData] = useState({});
+  const [loginState, setLogin] = useState(false);
+  const userStorage = useLocalStorage("user");
+  const loginStorage = useLocalStorage("login");
   useEffect(() => {
     fetch("https://api.escuelajs.co/api/v1/products")
       .then((response) => response.json())
       .then((data) => {
         const categorias = [...new Set(data.map((item) => item.category.name))];
         setItemsCategorys(categorias);
+        setUserData(userStorage.items);
+        setLogin(loginStorage.items);
         return setItems(data);
       });
-  }, []);
+  }, [loginStorage.items, userStorage.items]);
 
   const filteredItemsByTitle = (items, searchByTitle) => {
     return items?.filter((item) =>
@@ -89,7 +95,11 @@ export const ShoppingCartProvider = ({ children }) => {
         )
       );
     if (searchByTitle && !searchByCategory) {
-      console.log(searchByTitle, searchByCategory,"searchByTitle searchByCategory");
+      console.log(
+        searchByTitle,
+        searchByCategory,
+        "searchByTitle searchByCategory"
+      );
       setFilteredItems(
         filterBy("BY_TITLE", items, searchByTitle, searchByCategory)
       );
@@ -100,7 +110,6 @@ export const ShoppingCartProvider = ({ children }) => {
       );
     if (!searchByTitle && !searchByCategory)
       setFilteredItems(filterBy(null, items, searchByTitle, searchByCategory));
-   
   }, [items, searchByTitle, searchByCategory, filterBy]);
 
   return (
@@ -128,6 +137,10 @@ export const ShoppingCartProvider = ({ children }) => {
         searchByCategory,
         setSearchByCategory,
         itemsCategorys,
+        userData,
+        setUserData,
+        loginState,
+        setLogin,
       }}
     >
       {children}
